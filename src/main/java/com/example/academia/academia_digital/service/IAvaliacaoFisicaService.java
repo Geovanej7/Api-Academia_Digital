@@ -12,7 +12,7 @@ public interface IAvaliacaoFisicaService {
 
     AvaliacaoFisica get(Long id);
 
-    List<AvaliacaoFisica> getall();
+    List<AvaliacaoFisica> getAll();
 
     AvaliacaoFisica update(Long id, AvaliacaoFisicaUpdateForm formUpdate);
     
