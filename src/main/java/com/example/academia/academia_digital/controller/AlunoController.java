@@ -44,7 +44,6 @@ public class AlunoController {
     public Aluno getId(@RequestParam Long id) {
         return service.get(id);
     }
-    
 
     @GetMapping("/avaliacoes/{id}")
     public List<AvaliacaoFisica> getAllAvaliacaoFisica(@PathVariable Long id) {
