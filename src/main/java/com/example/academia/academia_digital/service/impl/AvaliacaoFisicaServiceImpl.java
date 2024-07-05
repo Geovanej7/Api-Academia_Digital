@@ -1,6 +1,7 @@
 package com.example.academia.academia_digital.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,8 @@ import com.example.academia.academia_digital.model.form.AvaliacaoFisicaUpdateFor
 import com.example.academia.academia_digital.repository.AlunoRepository;
 import com.example.academia.academia_digital.repository.AvaliacaoFisicaRepository;
 import com.example.academia.academia_digital.service.IAvaliacaoFisicaService;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class AvaliacaoFisicaServiceImpl implements IAvaliacaoFisicaService{
@@ -37,7 +40,7 @@ public class AvaliacaoFisicaServiceImpl implements IAvaliacaoFisicaService{
 
     @Override
     public AvaliacaoFisica get(Long id) {
-        return null;
+        return avaliacaoRepository.findById(id).get();
     }
 
     @Override
@@ -47,12 +50,20 @@ public class AvaliacaoFisicaServiceImpl implements IAvaliacaoFisicaService{
 
     @Override
     public AvaliacaoFisica update(Long id, AvaliacaoFisicaUpdateForm formUpdate) {
-        return null;
+        Optional<AvaliacaoFisica> optionalAvaliacao = avaliacaoRepository.findById(id);
+        if(optionalAvaliacao.isPresent()){
+            AvaliacaoFisica avaliacaoFisica = optionalAvaliacao.get();
+            avaliacaoFisica.setPeso(formUpdate.getPeso());
+            avaliacaoFisica.setAltura(formUpdate.getAltura());
+            return avaliacaoRepository.save(avaliacaoFisica);
+        }else {
+            throw new EntityNotFoundException("Avaliação com id " + id + " não encontrado.");
+        }
+        
     }
-
+    /* escolhi não implementar o método delete pois para nossa lógica não é preciso deletar uma avaliação fisica*/
     @Override
     public void delete(Long id) {
-        avaliacaoRepository.deleteById(id);
     }
 
 }
