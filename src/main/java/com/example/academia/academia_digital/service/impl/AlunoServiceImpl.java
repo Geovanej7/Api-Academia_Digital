@@ -1,6 +1,7 @@
 package com.example.academia.academia_digital.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,8 @@ import com.example.academia.academia_digital.model.form.AlunoForm;
 import com.example.academia.academia_digital.model.form.AlunoUpdateForm;
 import com.example.academia.academia_digital.repository.AlunoRepository;
 import com.example.academia.academia_digital.service.IAlunoService;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class AlunoServiceImpl implements IAlunoService {
@@ -29,7 +32,7 @@ public class AlunoServiceImpl implements IAlunoService {
 
     @Override
     public Aluno get(Long id) {
-        return null;
+        return repository.findById(id).get();
     }
 
     @Override
@@ -46,12 +49,24 @@ public class AlunoServiceImpl implements IAlunoService {
 
     @Override
     public Aluno update(Long id, AlunoUpdateForm formUpdate) {
-        return null;
+
+        Optional<Aluno> optionalAluno = repository.findById(id);
+
+        if (optionalAluno.isPresent()) {
+            Aluno aluno = optionalAluno.get();
+            aluno.setNome(formUpdate.getNome());
+            aluno.setBairro(formUpdate.getBairro());
+            aluno.setDataDeNascimento(formUpdate.getDataDeNascimento());
+
+            return repository.save(aluno);
+        } else {
+            throw new EntityNotFoundException("Aluno com id " + id + " não encontrado.");
+        }
     }
 
     @Override
     public void delete(Long id) {
-        
+        repository.deleteById(id);
     }
 
 }

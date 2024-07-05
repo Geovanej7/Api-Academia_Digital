@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.academia.academia_digital.model.AvaliacaoFisica;
 import com.example.academia.academia_digital.model.form.AvaliacaoFisicaForm;
 import com.example.academia.academia_digital.service.impl.AvaliacaoFisicaServiceImpl;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.RequestBody; // Correção aqui
 
 @RestController
@@ -18,7 +21,7 @@ public class AvaliacaoFisicaController {
     private AvaliacaoFisicaServiceImpl service;
 
     @PostMapping
-    public AvaliacaoFisica create(@RequestBody AvaliacaoFisicaForm form) {
+    public AvaliacaoFisica create(@Valid @RequestBody AvaliacaoFisicaForm form) {
         return service.create(form);
     }
 
