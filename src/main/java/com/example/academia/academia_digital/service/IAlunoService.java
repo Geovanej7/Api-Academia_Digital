@@ -13,7 +13,7 @@ public interface IAlunoService {
 
     Aluno get(Long id);
 
-    List <Aluno> getAll();
+    List <Aluno> getAll(String dataDeNascimento);
 
     List <AvaliacaoFisica> getAllAvaliacaoFisica(Long id);
 
